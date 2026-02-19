@@ -1,2 +1,2 @@
-# 2026-PS-quero-caf-
+# 2026-PS-dale-gremio
 Repositório da disciplina Programação de Sistemas — IFPR 2026
