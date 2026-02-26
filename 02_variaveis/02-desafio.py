@@ -93,6 +93,7 @@ while True:
     msg = "\nDigite uma opção válida!"
     ops = ["s", "n"]
     op  = input("-> ")
+    op  = op.lower()
     op  = test(op, ops, msg)    # valida a entrada
 
     if op == "n":   # caso não queira pesquisar um produto sai do laço
@@ -138,6 +139,7 @@ while True:
     msg = "\nDigite uma opção válida!"
     ops = ["s", "n"]
     op  = input("-> ")
+    op  = op.lower()
     op  = test(op, ops, msg)
 
     if op == "n":
@@ -172,6 +174,8 @@ for produto in estoque:             # verifica qual o produto mais critico
         qtd     = produto["qtd"]
         critico = qtd
 
+print()
+print("-" * 30)
 show_estoque()  # mostra o estoque novamente, com os novos produtos caso tenham sido adicionados
 
 # mostra o produto mais escasso e finaliza o programa
