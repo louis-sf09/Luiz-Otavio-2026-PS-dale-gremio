@@ -18,9 +18,18 @@
 # Mostra o catálogo
 def show_catalog():
     print(" --- Catálogo Atual ---")
+    global emprestados, disponiveis
+    emprestados = 0
+    disponiveis = 0
     # Percorrendo cada livro com for
     for livro in catalog:
-        status = "✅️ Disponivel" if livro["disponivel"] else "📚 Emprestado"
+        if livro["disponivel"] == True:
+            status = "✅️ Disponivel"
+            disponiveis += 1    # contando 1 para os livors disponiveis
+        else:
+            status = "📚 Emprestado"
+            emprestados += 1    # contando 1 para os livros emprestados
+
         print(f'  {livro["titulo"]} ({livro["ano"]})')
         print(f'  Autor: {livro["autor"]} | {status}')
         print(" " + "-" * 55)
@@ -43,17 +52,47 @@ while True:
     print("\n  Deseja cadastrar um livro: (s) sim (n) não")
     op = input("  -> ")
 
-    if op.lower() == "s":   # verifica se o usuário deseja cadatras um livro
+    if op.lower() == "s":   # testa a resposta do usuário usando .lower()
         # Lê as inormações para adicionar um novo livro ao catálogo
-        titulo = input("Titulo do livro: ")
-        autor = input("Autor do livro: ")
-        ano = input("Ano de publicação: ")
+        titulo = input("\n  Titulo do livro: ")
+        autor = input("  Autor do livro: ")
+        ano = input("  Ano de publicação: ")
         while not ano.isdigit():
-            print("\nData inválida")
-            ano = input("Ano de publicação: ")
+            print("\n  Data inválida")
+            ano = input("  Ano de publicação: ")
 
         catalog.append({"titulo": titulo, "autor": autor, "ano": ano, "disponivel": True})
         show_catalog()
     else:
         print("  Ok")
         break
+
+# Buscando livros por autor
+while True:
+    print("\n --- Busca de livros ---")
+    print("\n  Deseja buscar um livro: (s) sim (n) não")
+    op = input("  -> ")
+
+    if op.lower() == "s":   # testa a resposta do usuário usando .lower()
+        autor = input("  Digite o nome de um autor: ")
+        print()
+
+        encontrado = False
+        # Percorre a lista em busca de livros do autor digitado
+        for livro in catalog:
+            if autor.lower() in livro["autor"].lower(): # usa .lower() -> case-insensitive
+                status = "✅️ Disponivel" if livro["disponivel"] else "📚 Emprestado"
+                print(f'  {livro["titulo"]} ({livro["ano"]})')
+                print(f'  Autor: {livro["autor"]} | {status}')
+                print(" " + "-" * 55)
+                encontrado = True
+        if encontrado == False:
+            print("\n  Nenhum livro encontrado com o autor informado")
+    else:
+        print("  Ok")
+        break
+
+# Mostrando o relatório final
+print("\n --- Relatório ---")
+print(f"\n  Livros emprestados 📚: {emprestados}")
+print(f"  Livros disponiveis ✅️: {disponiveis}")
