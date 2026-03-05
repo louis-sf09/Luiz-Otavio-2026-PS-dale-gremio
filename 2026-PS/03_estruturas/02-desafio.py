@@ -68,6 +68,7 @@ while True:
             print("\n  Data inválida")
             ano = input("  Ano de publicação: ")
 
+        ano = int(ano)
         catalog.append({"titulo": titulo, "autor": autor, "ano": ano, "disponivel": True})
         show_catalog()
     else:
