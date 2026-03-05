@@ -4,7 +4,7 @@
 # Disciplina : Progrmação de Sistemas (PS)
 # Aula       : 05 - Revisão: Estruturas de Dados
 # Autor      : Luiz Otávio de S. Freo
-# Data       : 2026.04.03
+# Data       : 2026.03.04
 # Repositório: https://github.com/louis-sf09/Luiz-Otavio-2026-PS-dale-gremio
 # ===================================================
 #

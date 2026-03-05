@@ -4,7 +4,7 @@
 # Disciplina : Programação de Sistemas (PS)
 # Aula       : 04 - Revisão: Variáveis, Tipos e Controle de Fluxo
 # Autor      : Lui Otávio de S. Freo
-# Data       : 2026.26.02
+# Data       : 2026.02.26
 # Repositório: https://github.com/louis-sf09/Luiz-Otavio-2026-PS-dale-gremio
 # ===============================================
 #
