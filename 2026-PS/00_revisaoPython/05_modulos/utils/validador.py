@@ -8,6 +8,7 @@ def validar_numero(valor_str, minimo=None, maximo=None):
         # Caso seja float
         valor_float = float(valor_str)
 
+        # Testa se o valor está dentro dos limites
         if minimo != None and valor_float < minimo:
             return False, 0, msg_erro
         if maximo != None and valor_float > maximo:

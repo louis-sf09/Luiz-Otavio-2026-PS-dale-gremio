@@ -25,7 +25,7 @@ def menu_temperatura():
     continuar = False
     while not continuar:                    # recebe e testa a entrada até que seja válida
         valor = input("  Valor em C°: ")
-        continuar, valor, msg_erro = validar_numero(valor)
+        continuar, valor, msg_erro = validar_numero(valor, -1000000, 1000000)
         print(msg_erro)
     print(formatar_resultado("°C -> °F", valor, "°C", celsius_para_fahrenheit(valor), "°F"))
     print(formatar_resultado("°C -> K", valor, "°C", celsius_para_kelvin(valor), "K"))
