@@ -11,7 +11,8 @@
 # ---- Importação de pacotes e funções ----
 from conversores import (
     celsius_para_fahrenheit, celsius_para_kelvin, fahrenheit_para_celsius,
-    km_para_milhas, milhas_para_km, metros_para_pes, kg_para_libras, kg_para_gramas
+    km_para_milhas, milhas_para_km, metros_para_pes, kg_para_libras,
+    libras_para_kg, kg_para_gramas
 )
 from utils import (
     cabecalho_secao, formatar_resultado, linha_separadora,
@@ -22,7 +23,7 @@ from utils import (
 def menu_temperatura():
     print(cabecalho_secao("Conversão de Temperatura"))
     continuar = False
-    while not continuar:
+    while not continuar:                    # recebe e testa a entrada até que seja válida
         valor = input("  Valor em C°: ")
         continuar, valor, msg_erro = validar_numero(valor)
         print(msg_erro)
@@ -32,7 +33,7 @@ def menu_temperatura():
 def menu_distancia():
     print(cabecalho_secao("Conversão de Distância"))
     continuar = False
-    while not continuar:
+    while not continuar:                    # recebe e testa a entrada até que seja válida
         valor = input("  Valor em km: ")
         continuar, valor, msg_erro = validar_numero(valor)
         print(msg_erro)
@@ -42,7 +43,7 @@ def menu_distancia():
 def menu_massa():
     print(cabecalho_secao("Conversão de Massa"))
     continuar = False
-    while not continuar:
+    while not continuar:                    # recebe e testa a entrada até que seja válida
         valor = input("  Valor em kg: ")
         continuar, valor, msg_erro = validar_numero(valor)
         print(msg_erro)
