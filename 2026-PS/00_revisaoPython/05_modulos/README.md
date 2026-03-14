@@ -9,7 +9,7 @@ Programa de conversão de unidades (temperatura, distância e massa) utilizando 
         - massa.py
         - temperatura.py
     2. debug_teste/         # Pasta de arquivo de debug
-        -> 01b-debug.py
+        - 01b-debug.py
     3. utils/               # Pacote de módulos de formatação e validação
         - __init__.py      # API pública do pacote
         - formatador.py
