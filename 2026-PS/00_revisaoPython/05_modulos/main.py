@@ -4,16 +4,18 @@
 # Disciplina : Programação de Sistemas (PS)
 # Aula       : 07 - Revisão: Módulos
 # Autor      : Luiz Otávio de S. Freo
-# Data       : 2026.03.10
+# Data       : 2026.03.14
 # Repositório: https://github.com/louis-sf09/Luiz-Otavio-2026-PS-dale-gremio
 # ======================================================
 
+# ---- Importação de pacotes e funções ----
 from conversores import (
     celsius_para_fahrenheit, celsius_para_kelvin, fahrenheit_para_celsius,
-    km_para_milhas, milhas_para_km, metros_para_pes,
+    km_para_milhas, milhas_para_km, metros_para_pes, kg_para_libras, kg_para_gramas
 )
 from utils import cabecalho_secao, formatar_resultado, linha_separadora
 
+# ---- Funções dos menus de cada conversão ----
 def menu_temperatura():
     print(cabecalho_secao("Conversão de Temperatura"))
     valor = float(input("  Valor em C°: "))
@@ -26,15 +28,22 @@ def menu_distancia():
     print(formatar_resultado("km -> mi", valor, "km", km_para_milhas(valor), "mi"))
     print(formatar_resultado("km -> pés", valor * 1000, "m", metros_para_pes(valor * 1000), "pés"))
 
+def menu_massa():
+    print(cabecalho_secao("Conversão de Massa"))
+    valor = float(input("  Valor em kg: "))
+    print(formatar_resultado("kg -> lbs", valor, "kg", kg_para_libras(valor), "lbs"))
+    print(formatar_resultado("kg -> g", valor, "kg", kg_para_gramas(valor), "g"))
+
+# ---- Função principal ----
 def main():
     print(linha_separadora())
     print("  SISTEMA DE CONVERSÃO DE UNIDADES")
     print(linha_separadora())
 
-    opcoes = {"1": menu_temperatura, "2": menu_distancia}
+    opcoes = {"1": menu_temperatura, "2": menu_distancia, "3": menu_massa}
 
     while True:
-        print("\n [1] Temperatura  [2] Distância  [0] Sair")
+        print("\n [1] Temperatura  [2] Distância [3] Massa  [0] Sair")
         escolha = input("  Opção: ").strip()
         if escolha == "0":
             print("\nSistema encerrado.")
