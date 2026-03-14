@@ -13,24 +13,39 @@ from conversores import (
     celsius_para_fahrenheit, celsius_para_kelvin, fahrenheit_para_celsius,
     km_para_milhas, milhas_para_km, metros_para_pes, kg_para_libras, kg_para_gramas
 )
-from utils import cabecalho_secao, formatar_resultado, linha_separadora
+from utils import (
+    cabecalho_secao, formatar_resultado, linha_separadora,
+    validar_numero
+)
 
 # ---- Funções dos menus de cada conversão ----
 def menu_temperatura():
     print(cabecalho_secao("Conversão de Temperatura"))
-    valor = float(input("  Valor em C°: "))
+    continuar = False
+    while not continuar:
+        valor = input("  Valor em C°: ")
+        continuar, valor, msg_erro = validar_numero(valor)
+        print(msg_erro)
     print(formatar_resultado("°C -> °F", valor, "°C", celsius_para_fahrenheit(valor), "°F"))
     print(formatar_resultado("°C -> K", valor, "°C", celsius_para_kelvin(valor), "K"))
 
 def menu_distancia():
     print(cabecalho_secao("Conversão de Distância"))
-    valor = float(input("  Valor em km: "))
+    continuar = False
+    while not continuar:
+        valor = input("  Valor em km: ")
+        continuar, valor, msg_erro = validar_numero(valor)
+        print(msg_erro)
     print(formatar_resultado("km -> mi", valor, "km", km_para_milhas(valor), "mi"))
     print(formatar_resultado("km -> pés", valor * 1000, "m", metros_para_pes(valor * 1000), "pés"))
 
 def menu_massa():
     print(cabecalho_secao("Conversão de Massa"))
-    valor = float(input("  Valor em kg: "))
+    continuar = False
+    while not continuar:
+        valor = input("  Valor em kg: ")
+        continuar, valor, msg_erro = validar_numero(valor)
+        print(msg_erro)
     print(formatar_resultado("kg -> lbs", valor, "kg", kg_para_libras(valor), "lbs"))
     print(formatar_resultado("kg -> g", valor, "kg", kg_para_gramas(valor), "g"))
 
@@ -53,5 +68,6 @@ def main():
         else:
             print("  Opção inválida.")
 
+# ---- Chamada da Função principal ----
 if __name__ == "__main__":
     main()
