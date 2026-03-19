@@ -1,5 +1,26 @@
+# ===============================================
+# SISTEMA DE BIBLIOTECA
+# ===============================================
+# Disciplina : Programação de Sistemas (PS)
+# Aula       : 10 - Try/Except e Persistência em arquivos .txt
+# Autor      : Luiz Otávio de Souza Freo
+# Data       : 2026.03.19
+# Repositório: https://github.com/louis-sf09/Luiz-Otavio-2026-PS-dale-gremio
+# ===============================================
+#
+# DESCRIÇÃO:
+# Este é um sistema de biblioteca com diferentes funções de
+# gerenciamento de livros, que utiliza Try/Excepty para impedir
+# quebras do programa, e armazena as informações de longo prazo
+# em arquivos .txt que podem ser acessados posteriormente.
+# ===============================================
+
+from datetime    import datetime
+from collections import Counter
+
 # Centralizar o nome evita erros de digitação em todo o código
 ARQUIVO   = "biblioteca.txt"
+HISTORICO = "historico.txt"
 SEPARADOR = "|"   # separa campos em cada linha do .txt
 
 # Formato de cada linha no arquivo
@@ -77,6 +98,12 @@ def adicionar_livro(catalogo):
         print("⚠️ Titulo e autor são obrigatórios.")
         return
     
+    duplicadas = [l for l in catalogo if titulo.lower() in l["titulo"].lower()]
+
+    if len(duplicadas) > 0:
+        print("⚠️ Titulo já existente no catalogo.")
+        return
+
     catalogo.append({
         "titulo":     titulo,
         "autor":      autor,
@@ -126,6 +153,7 @@ def registrar_emprestimo(catalogo):
         if not livro["disponivel"]:
             print(f"⚠️ '{livro['titulo']}' já está emprestado.")
         else:
+            registrar_historico(livro["titulo"], "Emprestado")
             livro["disponivel"] = False
             print(f"✅ Empréstimo de '{livro['titulo']}' registrado.")
             salvar_catalogo(catalogo)
@@ -148,6 +176,7 @@ def devolver_livro(catalogo):
         if livro["disponivel"]:
             print(f"⚠️ '{livro['titulo']}' já está disponivel.")
         else:
+            registrar_historico(livro["titulo"], "Devolvido")
             livro["disponivel"] = True
             print(f"✅ Devolução de '{livro['titulo']}' registrada.")
             salvar_catalogo(catalogo)
@@ -156,6 +185,79 @@ def devolver_livro(catalogo):
         print("❌ Digite apenas o número do livro.")
     except IndexError:
         print("❌ Número fora da lista. Verifique os livros cadastrados.")
+
+
+
+def ver_historico(catalogo):
+    """Lê o .txt e exibe o histórico de empréstimos e devoluções"""
+    print("\n--- Histórico de Empréstimos e Devoluções ---")
+    try:
+        with open(HISTORICO, "r", encoding="utf-8") as f:
+            for linha in f:
+                linha = linha.strip()
+                if not linha:           # ignora linhas vazias
+                    continue
+                partes = linha.split(SEPARADOR)
+                livro, acao, data = partes
+                print(f"  Livro: {livro} - {acao} em: {data}")
+                
+    except FileNotFoundError:
+        pass    # primeira execução: arquivo ainda não existe - tudo bem
+    return
+
+
+
+def registrar_historico(livro, acao):
+    """Registra todo empréstimo/devolução no arquivo historico.txt."""
+    try:
+        # 'a' = append: adiciona informações ao arquivo
+        with open(HISTORICO, "a", encoding="utf-8") as f:
+            data = datetime.now().strftime("%d/%m/%Y %H:%M")
+            f.write(f"{livro}|{acao}|{data}\n")
+    except IOError as e:
+        print(f"❌ Erro ao registrar: {e}")
+
+
+
+def contagem_historico():
+    try:
+        with open(HISTORICO, "r", encoding="utf-8") as f:
+            livros_emprestados = []
+            for linha in f:
+                linha = linha.strip()
+                if not linha:           # ignora linhas vazias
+                    continue
+                partes = linha.split(SEPARADOR)
+                livro, acao, _ = partes
+                if acao == "Emprestado":
+                    print(livro)
+                    livro = str(livro)
+                    livros_emprestados.append(livro)
+                
+    except FileNotFoundError:
+        pass    # primeira execução: arquivo ainda não existe - tudo bem
+    return livros_emprestados
+
+
+
+def relatorio(catalogo):
+    total              = len(catalogo)
+    disponiveis        = 0
+    emprestados        = 0
+    frequencia         = Counter(contagem_historico())
+    mais_emprestado, _ = frequencia.most_common(1)[0]
+
+    for livro in catalogo:
+        if livro["disponivel"]:
+            disponiveis += 1
+        else:
+            emprestados += 1
+
+    print("\n--- Relatório de Acervo ---")
+    print(f"📚 Total de livros       : {total}")
+    print(f"✅ Livros disponiveis    : {disponiveis}")
+    print(f"❌ Livros emprestados    : {emprestados}")
+    print(f"📘 Livro mais emprestado : {mais_emprestado}")
 
 
 
@@ -172,6 +274,8 @@ def menu():
         "3": ("Buscar livro",           buscar_livro),
         "4": ("Registrar empréstimo",   registrar_emprestimo),
         "5": ("Devolver livro",         devolver_livro),
+        "6": ("Ver histórico",          ver_historico),
+        "7": ("Relatório",              relatorio),
         "0": ("Sair",                   None),
     }
 
