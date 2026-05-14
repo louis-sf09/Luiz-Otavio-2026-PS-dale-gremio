@@ -32,6 +32,53 @@ class Pet:
         print(f" Check-in : {self.data}")
         print(f" Hospedado: {"Sim" if self.hospedado else "Não"}")
 
+    def registrar_entrada(self):
+        if self.hospedado:
+            print(f"\n{self.nome} já está no hotel.")
+        else:
+            self.hospedado = True
+            self.data = datetime.now().strftime("%d/%m/%Y")
+            print(f"\n{self.nome} entrou no hotel.")
+
+    def registrar_saida(self):
+        if self.hospedado:
+            self.hospedado = False
+            print(f"\n{self.nome} saiu do hotel.")
+        else:
+            print(f"\n{self.nome} já está fora do hotel")
+
+    def atualizar_peso(self, novoPeso):
+        self.peso = novoPeso
+        print(f"\nPeso Atualizado com Sucesso! Novo peso de {self.nome}: {self.peso}")
+
+
+# ====================================================
+# PERSISTÊNCIA EM TEXTO (.txt)
+# ====================================================
+
+def salvar_em_txt(pets, caminho):
+    """Grava cada contato como uma linha no arquivo de texto."""
+    with open(caminho, "w", encoding="utf-8") as arquivo:
+        for c in pets:
+            arquivo.write(c.para_linha_txt() + "\n")
+    print(f"✅ {len(pets)} contato(s) salvo(s) em {caminho}")
+
+
+def carregar_de_txt(caminho):
+    """Lê o arquivo de texto e RECONSTRÓI os objetos Contato."""
+    pets = []
+    try:
+        with open(caminho, "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                linha = linha.strip()
+                if not linha:
+                    continue
+                partes = linha.split(";")
+                nome, telefone, email = partes[0], partes[1], partes[2]
+                pets.append(Pet(nome, telefone, email))
+    except FileNotFoundError:
+        print(f"Arquivo {caminho} ainda não existe. Começando vazio.")
+    return pets
 
 # ====================================================
 # PERSISTÊNCIA BINÁRIA (pickle)
@@ -80,17 +127,64 @@ def listar(pets):
         c.exibir()
 
 
+def check_in(pets):
+    """Mostra a lista, pede um número, e faz o check-in do pet escolhido."""
+    listar(pets)
+    if not pets:
+        return
+    numero = input("\nN° do pet para fazer o check-in: ")
+    cond, indice = digito(numero)
+    if cond and 0 <= indice < len(pets):
+        pets[indice].registrar_entrada()
+    else:
+        print("Índice inválido.")
+
+
+def check_out(pets):
+    """Mostra a lista, pede um número, e faz o check-out do pet escolhido."""
+    listar(pets)
+    if not pets:
+        return
+    numero = input("\nN° do pet para fazer o check-out: ")
+    cond, indice = digito(numero)
+    if cond and 0 <= indice < len(pets):
+        pets[indice].registrar_saida()
+    else:
+        print("Índice inválido.")
+
+
+def atualizar(pets):
+    """Mostra a lista, pede um número e atualiza o peso do pet escolhido."""
+    listar(pets)
+    if not pets:
+        return
+    numero = input("\nN° do pet para atualizar o peso: ")
+    cond, indice = digito(numero)
+    if cond and 0 <= indice < len(pets):
+        novoPeso = float(input("Novo peso do pet: "))
+        pets[indice].atualizar_peso(novoPeso)
+    else:
+        print("Índice inválido.")
+
+
 def remover(pets):
     """Mostra a lista, pede um número e remove o pet escolhido."""
     listar(pets)
     if not pets:
         return
-    indice = int(input("\nN° do pet a remover: ")) - 1
-    if 0 <= indice < len(pets):
+    numero = input("\nN° do pet a remover: ")
+    cond, indice = digito(numero)
+    if cond and 0 <= indice < len(pets):
         removido = pets.pop(indice)
         print(f"✅ Contato '{removido.nome}' removido.")
     else:
         print("Índice inválido.")
+
+def digito(numero):
+    if numero.isdigit():
+        return True, int(numero) - 1
+    else:
+        return False, "_"
 
 
 # ====================================================
@@ -104,6 +198,9 @@ def menu():
         print("\n--- Hotel para Pets v2.0 ---\n")
         print("1. Cadastrar Pet")
         print("2. Listar Pets")
+        print("3. Check-in")
+        print("4. Check-out")
+        print("5. Atualizar peso")
         print("0. Sair")
         opcao = input("Opção: ")
 
@@ -111,6 +208,12 @@ def menu():
             cadastrar(pets)
         elif opcao == "2":
             listar(pets)
+        elif opcao == "3":
+            check_in(pets)
+        elif opcao == "4":
+            check_out(pets)
+        elif opcao == "5":
+            atualizar(pets)
         elif opcao == "0":
             salvar_em_binario(pets, "2026-PS/02_poo/hotel_pets_v2/hotel_pets.bin")
             print("Até logo!")
