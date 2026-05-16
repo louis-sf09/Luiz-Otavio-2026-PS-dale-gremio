@@ -1,0 +1,2 @@
+Rex;Cachorro;5;6.0;Sim;16/05/2026;A definir...;True
+Requeijão;Gato;7;5.0;Sim;16/05/2026;A definir...;True
