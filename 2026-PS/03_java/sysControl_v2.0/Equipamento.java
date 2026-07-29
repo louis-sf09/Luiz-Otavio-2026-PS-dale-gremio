@@ -31,7 +31,11 @@ public class Equipamento {
     }
 
     public String getAtivo() {
-        return "Ativo" if ativo else "Inativo";
+        if (ativo) {
+            return "ativo";
+        } else {
+            return "inativo";
+        }
     }
 
     /* Setters e Validações */
@@ -55,5 +59,29 @@ public class Equipamento {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    /* Métodos de Comportamento */
+    public int transferirSetor(int novoSetor) {
+        setor = novoSetor;
+        return setor;
+    }
+
+    public String ativar() {
+        if (!ativo) {
+            ativo = true;
+            return "Sucesso: Equipamento ativado.";
+        } else {
+            return "Falha: Equipamento já está ativo.";
+        }
+    }
+
+    public String desativar() {
+        if (ativo) {
+            ativo = false;
+            return "Sucesso: Equipamento ativado.";
+        } else {
+            return "Falha: Equipamento já está desativado."
+        }
     }
 }
