@@ -110,7 +110,7 @@ public class Main {
             System.out.println("Nenhuma ficha cadastrada...");
             return;
         }
-        System.out.println("--- FICHAS CADASTRADAS: " + lista.size() + " ---");
+        System.out.println("\n--- FICHAS CADASTRADAS: " + lista.size() + " ---");
         for (int i=0; i<lista.size(); i++) {
             Aluno a = lista.get(i);
             System.out.println(a);   // a impressao chama o toString sozinha
@@ -182,7 +182,7 @@ public class Main {
 
     // RELATORIO: o padrao preparar -> percorrer -> usar, da aula 29
     static void relatorio(ArrayList<Aluno> lista, Scanner teclado) {
-        System.out.println("--- RELATORIO DA SECRETARIA ---");
+        System.out.println("\n--- RELATORIO DA SECRETARIA ---");
         System.out.println("Total de fichas: " + lista.size());
         System.out.print("Contar alunos de qual curso? ");
         String curso = teclado.nextLine().trim();
