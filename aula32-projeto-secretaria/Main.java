@@ -25,22 +25,22 @@ public class Main {
 
         // while (true) = repete para sempre. A unica saida e o break da opcao 0.
         while (true) {
-            System.out.println("================================================");
-            System.out.println("   SECRETARIA DO LUIZ OTAVIO");
+            System.out.println("\n================================================");
+            System.out.println("   SECRETARIA DO CAMPUS - por LUIZ OTAVIO");
             System.out.println("================================================");
             System.out.println("[1] Cadastrar aluno");
             System.out.println("[2] Listar alunos");
             System.out.println("[3] Buscar por matricula");
             System.out.println("[4] Atualizar curso");
             System.out.println("[5] Remover aluno");
-            System.out.println("[6] Relatorio");
+            System.out.println("[6] Gerar relatorio");
             System.out.println("[0] Sair");
             System.out.print("Sua escolha: ");
             String opcao = teclado.nextLine().trim();   // trim: tira espacos das pontas
 
             // Texto se compara com .equals, nunca com == (isso vale ouro em Java).
             if (opcao.equals("0")) {
-                System.out.println("Secretaria fechada. Ate a proxima!");
+                System.out.println("Secretaria fechada. Ate breve!");
                 break;
             } else if (opcao.equals("1")) {
                 cadastrar(lista, teclado);
@@ -80,7 +80,7 @@ public class Main {
         // A mesma busca de novo: quarta vez que ela trabalha para voce.
         Aluno existente = buscarPorMatricula(lista, matricula);
         if (existente != null) {
-            System.out.println("Ja existe ficha com a matricula " + matricula + "!");
+            System.out.println("Ja existe uma ficha com a matricula " + matricula + "!");
             return;   // sai do metodo agora; nao cadastra
         }
         
@@ -107,10 +107,10 @@ public class Main {
     // Percorre o gaveteiro e imprime ficha por ficha (padrao da Aula 29).
     static void listar(ArrayList<Aluno> lista) {
         if (lista.size() == 0) {
-            System.out.println("Nenhuma ficha...");
+            System.out.println("Nenhuma ficha cadastrada...");
             return;
         }
-        System.out.println("--- FICHAS NO GAVETEIRO: " + lista.size() + " ---");
+        System.out.println("--- FICHAS CADASTRADAS: " + lista.size() + " ---");
         for (int i=0; i<lista.size(); i++) {
             Aluno a = lista.get(i);
             System.out.println(a);   // a impressao chama o toString sozinha
@@ -137,7 +137,7 @@ public class Main {
 
         // GUARDA: confere o null ANTES de usar o resultado.
         if (a == null) {
-            System.out.println("Nenhuma ficha com a matricula " + matricula + ".");
+            System.out.println("Nenhuma ficha com a matricula '" + matricula + "' encontrada.");
         } else {
             System.out.println("Achei: " + a);
         }
@@ -149,7 +149,7 @@ public class Main {
         String matricula = teclado.nextLine().trim();
         Aluno a = buscarPorMatricula(lista, matricula);
         if (a == null) {
-            System.out.println("Nenhuma ficha com a matricula " + matricula + ".");
+            System.out.println("Nenhuma ficha com a matricula '" + matricula + "' encontrada.");
             return;
         }
         System.out.print("Novo curso de " + a.getNome() + ": ");
@@ -167,10 +167,10 @@ public class Main {
         String matricula = teclado.nextLine().trim();
         Aluno a = buscarPorMatricula(lista, matricula);
         if (a == null) {
-            System.out.println("Nenhuma ficha com a matricula " + matricula + ".");
+            System.out.println("Nenhuma ficha com a matricula '" + matricula + "' encontrada.");
             return;
         }
-        System.out.print("Tem certeza que remove " + a.getNome() + "? (s/n): ");
+        System.out.print("Tem certeza que deseja remover " + a.getNome() + "? (s/n): ");
         String resposta = teclado.nextLine().trim();
         if (resposta.equals("s")) {
             lista.remove(a);     // remove ESTA ficha (a mesma referencia achada)
