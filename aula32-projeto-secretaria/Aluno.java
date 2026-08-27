@@ -21,17 +21,19 @@ public class Aluno {
     private String nome;
     private String matricula;
     private String curso;
+    private String dataNasc;
 
     // CONSTRUTOR: roda no momento do "new" e preenche a ficha.
     // E o __init__ de voces, em Java. Tem o mesmo nome da classe e nao
     // declara tipo de retorno. Os valores chegam de fora, entre parenteses.
-    public Aluno(String nome, String matricula, String curso) {
+    public Aluno(String nome, String matricula, String curso, String dataNasc) {
         // "this" = ESTA ficha aqui (a self do Java).
         // this.nome e o atributo da ficha; nome, sozinho, e o parametro
         // que acabou de chegar. Sem o this, os dois seriam o parametro.
         this.nome = nome;
         this.matricula = matricula;
         this.curso = curso;
+        this.dataNasc = dataNasc;
     }
 
     // GETTERS: as janelas de leitura da ficha.
@@ -47,6 +49,10 @@ public class Aluno {
 
     public String getCurso() {
         return curso;
+    }
+
+    public String getDataNasc() {
+        return dataNasc;
     }
 
     // SETTERS: a unica porta de entrada para mudar um dado da ficha.
