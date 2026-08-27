@@ -64,8 +64,17 @@ public class Main {
     static void cadastrar(ArrayList<Aluno> lista, Scanner teclado) {
         System.out.print("Nome: ");
         String nome = teclado.nextLine().trim();
+        if (nome.equals("")) {
+            System.out.println("Precisa preencher o nome!");
+            return;
+        }
+
         System.out.print("Matricula: ");
         String matricula = teclado.nextLine().trim();
+        if (matricula.equals("")) {
+            System.out.println("Precisa preencher a matricula!");
+            return;
+        }
 
         // MATRICULA UNICA: busca ANTES de inserir. Se ja existe, desiste.
         // A mesma busca de novo: quarta vez que ela trabalha para voce.
@@ -77,8 +86,17 @@ public class Main {
         
         System.out.print("Curso: ");
         String curso = teclado.nextLine().trim();
+        if (curso.equals("")) {
+            System.out.println("Precisa preencher o curso!");
+            return;
+        }
+
         System.out.print("Data de nascimento: ");
         String dataNasc = teclado.nextLine().trim();
+        if (dataNasc.equals("")) {
+            System.out.println("Precisa preencher a data de nascimento!");
+            return;
+        }
 
         // new carimba a ficha; add guarda no gaveteiro. Sao duas acoes.
         Aluno novo = new Aluno(nome, matricula, curso, dataNasc);
