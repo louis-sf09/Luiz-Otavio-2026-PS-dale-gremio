@@ -1,7 +1,7 @@
 /*
  * Disciplina: 2026-PS
  * Estudante : LUIZ OTAVIO DE SOUZA FREO
- * Data      : 2026.08.19
+ * Data      : 2026.08.27
  * Projeto   : aula32-projeto-secretaria
  * Arquivo   : Aluno.java
  */
@@ -66,5 +66,14 @@ public class Aluno {
 
     public void setCurso(String curso) {
         this.curso = curso;
+    }
+
+    // toString: como a ficha sse apresenta quando alguem manda imprimi-la.
+    // Sem ele, System.out.println(aluno) mostra Aluno@7ad041f3.
+    // O @Override avisa o compilador: estou trocando um metodo que toda
+    // classe ja tem por uma versao minha.
+    @Override
+    public String toString() {
+        return matricula + " | " + nome + " | " + curso + " | " + dataNasc;
     }
 }
