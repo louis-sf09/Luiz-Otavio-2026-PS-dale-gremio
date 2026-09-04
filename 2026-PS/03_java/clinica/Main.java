@@ -48,6 +48,12 @@ public class Main {
         int codigo = teclado.nextInt();
         teclado.nextLine();
 
+        Produto novo = buscarPorCodigo(codigo);
+        if (novo != null) {
+            System.out.println("Código repetido.");
+            return;
+        }
+
         System.out.print("Nome: ");
         String nome = teclado.nextLine();
 
@@ -56,15 +62,13 @@ public class Main {
 
         Produto p = new Produto(codigo, nome, preco);
         produtos.add(p);
+
+        System.out.println("Produto cadastrado.");
     }
 
     static void listar() {
         for (Produto p : produtos) {
-            System.out.println(
-                p.getCodigo() + " - " +
-                p.getNome() + " - R$ " +
-                p.getPreco()
-            );
+            System.out.println(p);
         }
     }
 
@@ -84,7 +88,7 @@ public class Main {
 
         Produto p = buscarPorCodigo(codigo);
         if (p == null) {
-            System.out.println("Nenhum produto encontrado com o código: " + codigo);
+            System.out.println("Nenhum produto encontrado.");
             return;
         }
 
@@ -92,6 +96,7 @@ public class Main {
         double preco = teclado.nextDouble();
 
         p.setPreco(preco);
+        System.out.println("Preço alterado.");
     }
 
     static void remover() {
@@ -100,10 +105,11 @@ public class Main {
 
         Produto p = buscarPorCodigo(codigo);
         if (p == null) {
-            System.out.println("Nenhum produto encontrado com o código: " + codigo);
+            System.out.println("Nenhum produto encontrado.");
             return;
         }
 
         produtos.remove(p);
+        System.out.println("Produto removido.");
     }
 }

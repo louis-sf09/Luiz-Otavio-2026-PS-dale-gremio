@@ -29,4 +29,13 @@ public class Produto {
     public void alterarPreco(double preco) {
         this.preco = preco;
     }
+
+    public void alterarPreco(double preco, double desconto) {
+        this.preco = preco - (preco * desconto / 100);
+    }
+
+    @Override
+    public String toString() {
+        return codigo + " - " + nome + " - R$ " + preco;
+    }
 }
