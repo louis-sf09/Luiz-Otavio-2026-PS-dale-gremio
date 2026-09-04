@@ -6,6 +6,17 @@ public class Main {
     static Scanner teclado = new Scanner(System.in);
     static ArrayList<Produto> produtos = new ArrayList<>();
 
+
+    static Produto buscarPorCodigo(int codigo) {
+        for (int i=0; i<produtos.size(); i++) {
+            Produto p = produtos.get(i);
+            if (p.getCodigo() == codigo) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
 
         int opcao = 0;
@@ -53,28 +64,29 @@ public class Main {
                 System.out.print("Código: ");
                 int codigo = teclado.nextInt();
 
-                for (Produto p : produtos) {
-
-                    if (p.getCodigo() == codigo) {
-
-                        System.out.print("Novo preço: ");
-                        double preco = teclado.nextDouble();
-
-                        p.setPreco(preco);
-                    }
+                Produto p = buscarPorCodigo(codigo);
+                if (p == null) {
+                    System.out.println("Nenhum produto encontrado com o código: " + codigo);
+                    return;
                 }
+
+                System.out.print("Novo preço: ");
+                double preco = teclado.nextDouble();
+
+                p.setPreco(preco);
 
             } else if (opcao == 4) {
 
                 System.out.print("Código: ");
                 int codigo = teclado.nextInt();
 
-                for (Produto p : produtos) {
-
-                    if (p.getCodigo() == codigo) {
-                        produtos.remove(p);
-                    }
+                Produto p = buscarPorCodigo(codigo);
+                if (p == null) {
+                    System.out.println("Nenhum produto encontrado com o código: " + codigo);
+                    return;
                 }
+
+                produtos.remove(p);
             }
         }
 
