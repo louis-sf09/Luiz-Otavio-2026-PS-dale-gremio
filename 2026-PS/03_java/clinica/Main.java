@@ -6,17 +6,6 @@ public class Main {
     static Scanner teclado = new Scanner(System.in);
     static ArrayList<Produto> produtos = new ArrayList<>();
 
-
-    static Produto buscarPorCodigo(int codigo) {
-        for (int i=0; i<produtos.size(); i++) {
-            Produto p = produtos.get(i);
-            if (p.getCodigo() == codigo) {
-                return p;
-            }
-        }
-        return null;
-    }
-
     public static void main(String[] args) {
 
         int opcao = 0;
@@ -35,61 +24,86 @@ public class Main {
             teclado.nextLine();
 
             if (opcao == 1) {
+                cadastrar();
+            }
 
-                System.out.print("Código: ");
-                int codigo = teclado.nextInt();
-                teclado.nextLine();
+            else if (opcao == 2) {
+                listar();
+            }
 
-                System.out.print("Nome: ");
-                String nome = teclado.nextLine();
-
-                System.out.print("Preço: ");
-                double preco = teclado.nextDouble();
-
-                Produto p = new Produto(codigo, nome, preco);
-                produtos.add(p);
-
-            } else if (opcao == 2) {
-
-                for (Produto p : produtos) {
-                    System.out.println(
-                        p.getCodigo() + " - " +
-                        p.getNome() + " - R$ " +
-                        p.getPreco()
-                    );
-                }
-
-            } else if (opcao == 3) {
-
-                System.out.print("Código: ");
-                int codigo = teclado.nextInt();
-
-                Produto p = buscarPorCodigo(codigo);
-                if (p == null) {
-                    System.out.println("Nenhum produto encontrado com o código: " + codigo);
-                    return;
-                }
-
-                System.out.print("Novo preço: ");
-                double preco = teclado.nextDouble();
-
-                p.setPreco(preco);
-
-            } else if (opcao == 4) {
-
-                System.out.print("Código: ");
-                int codigo = teclado.nextInt();
-
-                Produto p = buscarPorCodigo(codigo);
-                if (p == null) {
-                    System.out.println("Nenhum produto encontrado com o código: " + codigo);
-                    return;
-                }
-
-                produtos.remove(p);
+            else if (opcao == 3) {
+                alterarPreco();
+            }
+            
+            else if (opcao == 4) {
+                remover();
             }
         }
 
         System.out.println("Sistema encerrado.");
+    }
+    
+    static void cadastrar() {
+        System.out.print("Código: ");
+        int codigo = teclado.nextInt();
+        teclado.nextLine();
+
+        System.out.print("Nome: ");
+        String nome = teclado.nextLine();
+
+        System.out.print("Preço: ");
+        double preco = teclado.nextDouble();
+
+        Produto p = new Produto(codigo, nome, preco);
+        produtos.add(p);
+    }
+
+    static void listar() {
+        for (Produto p : produtos) {
+            System.out.println(
+                p.getCodigo() + " - " +
+                p.getNome() + " - R$ " +
+                p.getPreco()
+            );
+        }
+    }
+
+    static Produto buscarPorCodigo(int codigo) {
+        for (int i=0; i<produtos.size(); i++) {
+            Produto p = produtos.get(i);
+            if (p.getCodigo() == codigo) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    static void alterarPreco() {
+        System.out.print("Código: ");
+        int codigo = teclado.nextInt();
+
+        Produto p = buscarPorCodigo(codigo);
+        if (p == null) {
+            System.out.println("Nenhum produto encontrado com o código: " + codigo);
+            return;
+        }
+
+        System.out.print("Novo preço: ");
+        double preco = teclado.nextDouble();
+
+        p.setPreco(preco);
+    }
+
+    static void remover() {
+        System.out.print("Código: ");
+        int codigo = teclado.nextInt();
+
+        Produto p = buscarPorCodigo(codigo);
+        if (p == null) {
+            System.out.println("Nenhum produto encontrado com o código: " + codigo);
+            return;
+        }
+
+        produtos.remove(p);
     }
 }
