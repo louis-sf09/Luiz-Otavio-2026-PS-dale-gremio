@@ -27,7 +27,7 @@ O BiblioTech é um sistema que tem como finalidade facilitar o trabalho do bilio
 | RF03 | O sistema deve permitir que o leitor consulte a disponibilidade de um livro. | HU01 |
 | RF04 | O sistema deve permitir que a bibliotecaria registre a devolucao de um livro. | HU02 |
 | RF05 | O sistema deve permitir que a bibliotecaria registre o emprestimo de um livro. | HU03 |
-| RF06 | O sistema deve calcular a multa por atraso da devolução | (de onde veio) |
+| RF06 | O sistema deve calcular a multa por atraso da devolução | HU06 |
 ​
 ### Requisitos nao funcionais
 ​
