@@ -23,6 +23,6 @@ public class Bibliotecario extends Usuario {
     }
 
     public String toString() {
-        return "Bibliotecario(a) " + getNome() + " (" + getMatricula() + ", funcional " + matriculaFuncional + ")";
+        return "Bibliotecario(a) " + super.toString() + " - funcional " + matriculaFuncional;
     }
 }
