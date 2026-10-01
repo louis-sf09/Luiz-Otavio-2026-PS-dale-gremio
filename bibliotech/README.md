@@ -50,3 +50,8 @@ O BiblioTech é um sistema que tem como finalidade facilitar o trabalho do bilio
 
 - Livro ganhou o atributo disponivel: boolean, porque estaDisponivel() precisa guardar o estado.
 - Leitor ganhou livrosEmMaos: int, porque podePegarEmprestado() compara com o limite.
+
+## 6. Classe que o código pediu ao diagrama (aula 39)
+
+- O código do BilioTech pediu uma sexta classe ao diagrama: Biblioteca.java.
+- Ela contém as listas dos livros, leitores e emprestimos em um só lugar, facilitando o manuseio dessas informações.
