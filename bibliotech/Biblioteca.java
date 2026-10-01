@@ -16,8 +16,15 @@ public class Biblioteca {
         livros.add(livro);
     }
 
-    public void cadastrarLeitor(Leitor leitor) {
+    public boolean cadastrarLeitor(Leitor leitor) {
+        for (int i = 0; i < leitores.size(); i++) {
+            Leitor l = leitores.get(i);
+            if (leitor.getMatricula() == l.getMatricula()) {
+                return false;
+            }
+        }
         leitores.add(leitor);
+        return true;
     }
 
     public void listarAcervo() {
@@ -75,6 +82,16 @@ public class Biblioteca {
     public void listarEmprestimos() {
         for (int i = 0; i < emprestimos.size(); i++) {
             System.out.println(emprestimos.get(i));
+        }
+    }
+
+    public void listarLivrosDoLeitor(String matricula) {
+        System.out.println("--- Livros com a matricula " + matricula + " ---");
+        for (int i = 0; i < emprestimos.size(); i++) {
+            Emprestimo e = emprestimos.get(i);
+            if (e.getLeitor().getMatricula() == matricula && e.estaAtivo()) {
+                System.out.println(e.getLivro());
+            }
         }
     }
 }

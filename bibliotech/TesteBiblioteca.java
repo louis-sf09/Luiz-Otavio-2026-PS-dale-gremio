@@ -5,7 +5,8 @@ public class TesteBiblioteca {
         biblioteca.cadastrarLivro(new Livro("Dom Casmurro", "Machado de Assis", 1899));
         biblioteca.cadastrarLivro(new Livro("Capitaes da Areia", "Jorge Amado", 1937));
         biblioteca.cadastrarLeitor(new Leitor("Pedro Alves", "2026010", 1));
-        biblioteca.cadastrarLeitor(new Leitor("Ana Lima", "2026011", 2));
+        System.out.println("Cadastra Ana: " + biblioteca.cadastrarLeitor(new Leitor("Ana Lima", "2026011", 2)));
+        System.out.println("Mesma matricula de novo: " + biblioteca.cadastrarLeitor(new Leitor("Ana Lima", "2026011", 2)));
 
         System.out.println("--- Acervo ---");
         biblioteca.listarAcervo();
@@ -26,5 +27,9 @@ public class TesteBiblioteca {
         biblioteca.listarEmprestimos();
         System.out.println("--- Acervo ---");
         biblioteca.listarAcervo();
+
+        biblioteca.emprestar("Capitaes da Areia", "2026011");
+        biblioteca.devolver("Dom Casmurro");
+        biblioteca.listarLivrosDoLeitor("2026011");
     }
 }
