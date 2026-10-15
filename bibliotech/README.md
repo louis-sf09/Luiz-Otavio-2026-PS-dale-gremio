@@ -76,12 +76,11 @@ java TelaBiblioteca
 | RF02 | 'Biblioteca.cadastrarLeitor()' | TesteRequitos: 1 verificacao RF02 |
 | RF03 | 'Biblioteca.buscarLivro()' e 'Livro.estaDisponivel()'; area do acervo na janela | TesteRequisitos: 2 vericacoes RF03 |
 | RF04 | 'Biblioteca.devolver()', que chama 'Emprestimo.registrarDevolucao()'; botao Devolver | TesteRequisitos: 3 verificacoes RF04 |
-| RF05 | 'Biblioteca.emprestar', que chama 'Emprestimo.realizarEmprestimo()'; botao Emprestar | TesteRequisitos: 5 verificacoes RF05 |
-| RF06 | 'Ainda nao implementado' | Sem verificacao |
+| RF05 | 'Biblioteca.emprestar()', que chama 'Emprestimo.realizarEmprestimo()'; botao Emprestar | TesteRequisitos: 5 verificacoes RF05 |
+| RF06 | 'Biblioteca.emprestimosAtrasados()', que chama'Emprestimo.estaAtrasado()' | TesteRequisitos: 3 verificacoes RF06 |
 
 ## 8. O que o BiblioTech ainda nao faz
 
-- HU05: ver os emprestimos atrasados. O emprestimo ainda nao tem prazo.
 - RNF02: qualquer pessoa que abre a janela pode emprestar e devolver; nao ha login de biliotecario.
 - Cadastrar livro e leitor pela janela: hoje o cadastro esta no 'main' de 'TelaBiblioteca'.
 - Guardar os dados: ao fechar o programa, os emprestimos se perdem.
