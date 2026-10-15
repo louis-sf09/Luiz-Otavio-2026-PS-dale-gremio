@@ -4,6 +4,7 @@ public class Emprestimo {
     private Livro livro;
     private Leitor leitor;
     private LocalDate dataRetirada;
+    private LocalDate dataDevPrazo;
     private LocalDate dataDevolucao;
     private boolean ativo;
 
@@ -25,7 +26,7 @@ public class Emprestimo {
         livro.emprestar();
         leitor.pegouLivro();
         dataRetirada = LocalDate.now();
-        dataDevolucao = null;
+        dataDevPrazo = dataRetirada.plusDays(7);
         ativo = true;
         return true;
     }
@@ -42,6 +43,14 @@ public class Emprestimo {
         return true;
     }
 
+    public boolean estaAtrasado(LocalDate data) {
+        if (data.isAfter(this.dataDevPrazo) && this.ativo) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public Livro getLivro() {
         return livro;
     }
@@ -52,6 +61,10 @@ public class Emprestimo {
 
     public LocalDate getDataRetirada() {
         return dataRetirada;
+    }
+
+    public LocalDate getDataDevPrazo() {
+        return dataDevPrazo;
     }
 
     public LocalDate getDataDevolucao() {
@@ -70,6 +83,6 @@ public class Emprestimo {
 
         String situacao = ativo ? "ativo" : "devolvido em " + dataDevolucao;
 
-        return livro.getTitulo() + " para " + leitor.getNome() + " | retirada: " + dataRetirada + " | " + situacao;
+        return livro.getTitulo() + " para " + leitor.getNome() + " | retirada: " + dataRetirada + " | prazo devolucao: " + dataDevPrazo + " | " + situacao;
     }
 }

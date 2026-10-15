@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.time.LocalDate;
 
 public class Biblioteca {
 
@@ -44,10 +45,20 @@ public class Biblioteca {
     }
 
     public Leitor buscarLeitor(String matricula) {
-        for (int i =0; i < leitores.size(); i++) {
+        for (int i = 0; i < leitores.size(); i++) {
             Leitor l = leitores.get(i);
             if (l.getMatricula().equals(matricula)) {
                 return l;
+            }
+        }
+        return null;
+    }
+
+    public Emprestimo buscarEmprestimoAtivo(String titulo, String matricula) {
+        for (int i = 0; i < emprestimos.size(); i++) {
+            Emprestimo e = emprestimos.get(i);
+            if (e.getLeitor().getMatricula().equals(matricula) && e.getLivro().getTitulo().equals(titulo) && e.estaAtivo()) {
+                return e;
             }
         }
         return null;
@@ -83,6 +94,17 @@ public class Biblioteca {
         for (int i = 0; i < emprestimos.size(); i++) {
             System.out.println(emprestimos.get(i));
         }
+    }
+
+    public ArrayList<Emprestimo> emprestimosAtrasados(LocalDate data) {
+        ArrayList<Emprestimo> emprestimosA = new ArrayList<Emprestimo>();
+        for (int i = 0; i < emprestimos.size(); i++) {
+            Emprestimo e = emprestimos.get(i);
+            if (e.estaAtrasado(data)) {
+                emprestimosA.add(e);
+            }
+        }
+        return emprestimosA;
     }
 
     public void listarLivrosDoLeitor(String matricula) {

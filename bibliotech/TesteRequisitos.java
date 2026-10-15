@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class TesteRequisitos {
 
     // Dois contotadores da classe: somam o resultado de todas as verificacoes.
@@ -23,7 +25,9 @@ public class TesteRequisitos {
         biblioteca.cadastrarLeitor(new Leitor("Ana Lima", "2026011", 2));
         
         Livro dom = biblioteca.buscarLivro("Dom Casmurro");
+        Livro cap = biblioteca.buscarLivro("Capitaes da Areia");
         Leitor pedro = biblioteca.buscarLeitor("2026010");
+        LocalDate data = LocalDate.now();
 
         // RF01 e RF02: o que foi cadastrado pode ser encontrado.
         verificar("RF01 livro cadastrado aparece na busca", dom != null);
@@ -44,6 +48,19 @@ public class TesteRequisitos {
         verificar("RF04 devolucao de emprestimo ativo e aceita", biblioteca.devolver("Dom Casmurro"));
         verificar("RF04 livro devolvido volta a ficar disponivel", dom.estaDisponivel());
         verificar("RF04 segunda devolucao e recusada", !biblioteca.devolver("Dom Casmurro"));
+
+        biblioteca.emprestar("Dom Casmurro", "2026010");
+        Emprestimo e = biblioteca.buscarEmprestimoAtivo("Dom Casmurro", "2026010");
+
+        // RF06 e RF05
+        verificar("RF05 titulo inexistente e recusado", !biblioteca.emprestar("O Cortico", "2026010"));
+        verificar("RF05 matricula inexistente e recusada", !biblioteca.emprestar("Capitaes da Areia", "2026012"));
+        verificar("RF05 recusa nao muda o livro", cap.estaDisponivel());
+        verificar("RF05 recusa nao muda o leitor", pedro.getLivrosEmMaos() == 1);
+        verificar("RF06 hoje ninguem esta atrasado", biblioteca.emprestimosAtrasados(data).size() == 0);
+        verificar("RF06 no ultimo dia do prazo ninguem esta atrasado", biblioteca.emprestimosAtrasados(data.plusDays(7)).size() == 0);
+        verificar("RF06 um dia depois do prazo ha 1 atrasado", biblioteca.emprestimosAtrasados(data.plusDays(8)).size() == 1);
+        verificar("Prazo: devolucao prevista 7 dias depois da retirada", e.getDataDevPrazo().compareTo(e.getDataRetirada()) == 7);
 
         System.out.println();
         System.out.println(passaram + " passaram, " + falharam + " falharam.");
