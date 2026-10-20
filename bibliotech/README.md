@@ -84,3 +84,35 @@ java TelaBiblioteca
 - RNF02: qualquer pessoa que abre a janela pode emprestar e devolver; nao ha login de biliotecario.
 - Cadastrar livro e leitor pela janela: hoje o cadastro esta no 'main' de 'TelaBiblioteca'.
 - Guardar os dados: ao fechar o programa, os emprestimos se perdem.
+
+## 9. Persistência de Dados
+
+Banco de Dados: 'bibliotech'
+Tabela: 'livros'
+
+Classe 'Conexao': É a classe responsável por estabelecer a comunicação entre o Java e o MariaDB.
+
+Classe 'LivroDAO': É a classe responsável por preparar e executar os comandos SQL.
+
+Métodos implementados:
+1. 'adicionarLivro' - adiciona um livro à tabela 'livros'.
+2. 'atualizarLivro' - atualiza os dados de um livro já cadastrado.
+3. 'excluirLivro' - exclui um livro usando seu id como base.
+
+Como executar?
+No Codespace dentro da pasta 'bibliotech/'
+1. Configure as variáveis de ambiente:
+- ''' export DB_USER=bibliotech '''
+- ''' read -rs -p "Senha do banco: " DB_PASSWORD '''
+- (digite sua senha)
+- ''' export DB_PASSWORD '''
+2. Compile os arquivos do teste que queira fazer:
+- Teste de Conexão: ''' javac -cp ".:lib/*" TesteConexao.java '''
+- Teste de Persistência: ''' javac -cp ".:lib/*" TesteLivroDAO
+3. Execute os arquivos do respectivo teste:
+- Teste de Conexão: ''' java -cp ".:lib/*" TesteConexao
+- Teste de Persistência: ''' java -cp ".:lib/*" TesteLivroDAO
+4. Confira os dados no banco:
+- ''' mariadb -u bibliotech -p -h localhost bibliotech '''
+- (digite sua senha)
+- ''' SELECT * FROM livros; '''
