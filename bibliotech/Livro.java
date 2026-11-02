@@ -8,13 +8,15 @@
 public class Livro {
 
     // ATRIBUTOS: a faixa do meio da caixa, um por linha, todos private.
+    private int id;
     private String titulo;
     private String autor;
     private int ano;
     private boolean disponivel;   // nao estava na caixa: o codigo pediu
 
     // CONSTRUTOR: preenche a ficha do livro no momento do "new".
-    public Livro(String titulo, String autor, int ano) {
+    public Livro(int id, String titulo, String autor, int ano) {
+        this.id = id;
         this.titulo = titulo;
         this.autor = autor;
         this.ano = ano;
@@ -32,6 +34,14 @@ public class Livro {
 
     public int getAno() {
         return ano;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     // METODOS

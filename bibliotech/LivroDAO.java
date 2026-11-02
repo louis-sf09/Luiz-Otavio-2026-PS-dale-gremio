@@ -82,9 +82,9 @@ public class LivroDAO {
         }
     }
 
-    public List<String> listarLivros() {
+    public List<Livro> listarLivros() {
 
-        List<String> livros = new ArrayList<>();
+        List<Livro> livros = new ArrayList<>();
 
         String sql =
             "SELECT id, titulo, autor, ano " +
@@ -108,10 +108,12 @@ public class LivroDAO {
 
                 int ano = resultado.getInt("ano");
 
-                String livro =
-                    id + " - " +
-                    titulo + " - " +
-                    autor + " (" + ano + ")";
+                Livro livro = new Livro(
+                    id,
+                    titulo,
+                    autor,
+                    ano
+                );
 
                 livros.add(livro);
             }
@@ -127,7 +129,7 @@ public class LivroDAO {
         return livros;
     }
 
-    public String buscarLivroPorId(int id) {
+    public Livro buscarLivroPorId(int id) {
 
         String sql =
             "SELECT id, titulo, autor, ano " +
@@ -156,9 +158,12 @@ public class LivroDAO {
                     int ano =
                         resultado.getInt("ano");
 
-                    return codigo + " - " +
-                        titulo + " - " +
-                        autor + " (" + ano + ")";
+                    return new Livro(
+                        codigo,
+                        titulo,
+                        autor,
+                        ano
+                    );
                 }
             }
 
