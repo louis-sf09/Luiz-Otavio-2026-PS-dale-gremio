@@ -177,4 +177,55 @@ public class LivroDAO {
 
         return null;
     }
+
+    public List<Livro> buscarLivrosPorTitulo(
+            String titulo) {
+
+        List<Livro> livros = new ArrayList<>();
+
+        String sql =
+            "SELECT id, titulo, autor, ano " +
+            "FROM livros " +
+            "WHERE titulo LIKE ? " +
+            "ORDER BY titulo";
+
+        try (
+            Connection conexao = Conexao.conectar();
+
+            PreparedStatement comando =
+                conexao.prepareStatement(sql)
+        ) {
+
+            comando.setString(
+                1, "%" + titulo + "%"
+            );
+
+            try (
+                ResultSet resultado =
+                    comando.executeQuery()
+            ) {
+
+                while (resultado.next()) {
+
+                    Livro livro = new Livro(
+                        resultado.getInt("id"),
+                        resultado.getString("titulo"),
+                        resultado.getString("autor"),
+                        resultado.getInt("ano")
+                    );
+
+                    livros.add(livro);
+                }
+            }
+
+        } catch (SQLException e) {
+
+            System.out.println(
+                "Erro ao buscar livros: " +
+                e.getMessage()
+            );
+        }
+
+        return livros;
+    }
 }

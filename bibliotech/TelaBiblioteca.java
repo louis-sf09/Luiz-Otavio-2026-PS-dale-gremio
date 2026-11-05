@@ -43,14 +43,19 @@ public class TelaBiblioteca extends JFrame {
         JButton botaoEmprestar = new JButton("Emprestar");
         JButton botaoDevolver = new JButton("Devolver");
         JButton botaoAtualizar = new JButton("Atualizar acervo");
+        JButton botaoConsultar = new JButton("Consultar livros");
 
         botaoEmprestar.addActionListener(e -> emprestar());
         botaoDevolver.addActionListener(e -> devolver());
         botaoAtualizar.addActionListener(e -> atualizarAcervo());
+        botaoConsultar.addActionListener(e -> {
+            new TelaLivros().setVisible(true);
+        });
 
         botoes.add(botaoEmprestar);
         botoes.add(botaoDevolver);
         botoes.add(botaoAtualizar);
+        botoes.add(botaoConsultar);
         add(botoes, BorderLayout.SOUTH);
 
         atualizarAcervo();
@@ -116,10 +121,10 @@ public class TelaBiblioteca extends JFrame {
         Biblioteca biblioteca = new Biblioteca();
 
         biblioteca.cadastrarLivro(
-            new Livro("Dom Casmurro", "Machado de Assis", 1899)
+            new Livro(1, "Dom Casmurro", "Machado de Assis", 1899)
         );
         biblioteca.cadastrarLivro(
-            new Livro("Capitaes da Areia", "Jorge Amado", 1937)
+            new Livro(2, "Capitaes da Areia", "Jorge Amado", 1937)
         );
         biblioteca.cadastrarLeitor(
             new Leitor("Pedro Alves", "2026010", 1)
