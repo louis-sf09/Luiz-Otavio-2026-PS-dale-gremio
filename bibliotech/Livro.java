@@ -9,6 +9,7 @@ public class Livro {
 
     // ATRIBUTOS: a faixa do meio da caixa, um por linha, todos private.
     private int id;
+    private String capa;
     private String titulo;
     private String autor;
     private int ano;
@@ -38,6 +39,16 @@ public class Livro {
 
     public int getId() {
         return id;
+    }
+
+    public String getCapa() {
+        return capa;
+    }
+
+    // SETTERS
+
+    public void setCapa(String capa) {
+        this.capa = capa;
     }
 
     public void setId(int id) {

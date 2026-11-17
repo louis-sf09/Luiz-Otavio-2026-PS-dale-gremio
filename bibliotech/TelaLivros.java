@@ -33,7 +33,7 @@ public class TelaLivros extends JFrame {
 
         modelo = new DefaultTableModel(
             new Object[]{
-                "ID", "Título", "Autor", "Ano"
+                "ID", "Capa", "Título", "Autor", "Ano"
             }, 0
         ) {
             @Override
@@ -49,6 +49,52 @@ public class TelaLivros extends JFrame {
             new JScrollPane(tabela),
             BorderLayout.CENTER
         );
+
+        tabela.setRowHeight(85);
+
+        tabela.getColumnModel()
+            .getColumn(1)
+            .setPreferredWidth(90);
+
+        tabela.getColumnModel()
+            .getColumn(1)
+            .setCellRenderer(
+                new javax.swing.table.DefaultTableCellRenderer() {
+
+                    @Override
+                    public java.awt.Component
+                            getTableCellRendererComponent(
+                                JTable tabela,
+                                Object valor,
+                                boolean selecionada,
+                                boolean foco,
+                                int linha,
+                                int coluna) {
+
+                        JLabel label = new JLabel();
+
+                        label.setHorizontalAlignment(
+                            JLabel.CENTER
+                        );
+
+                        label.setOpaque(true);
+
+                        label.setBackground(
+                            selecionada
+                            ? tabela.getSelectionBackground()
+                            : tabela.getBackground()
+                        );
+
+                        if (valor instanceof ImageIcon) {
+                            label.setIcon((ImageIcon) valor);
+                        } else {
+                            label.setText("Sem capa");
+                        }
+
+                        return label;
+                    }
+                }
+            );
 
         GridLayout controlesLayout =
             new GridLayout(0, 3, 10, 4);
@@ -72,6 +118,9 @@ public class TelaLivros extends JFrame {
         JButton limpar =
             new JButton("Limpar pesquisa");
 
+        JButton botaoCapa =
+            new JButton("Selecionar capa");
+
         controles.setLayout(controlesLayout);
 
         controles.add(new JLabel("ID do livro:"));
@@ -85,21 +134,38 @@ public class TelaLivros extends JFrame {
         controles.add(atualizar);
         controles.add(mostrarTodos);
         controles.add(limpar);
+        controles.add(botaoCapa);
 
         add(controles, BorderLayout.NORTH);
         add(status, BorderLayout.SOUTH);
 
-        buscar.addActionListener(e -> buscarLivro());
-        campoId.addActionListener(e -> buscarLivro());
-        botaoBuscarTitulo.addActionListener(e -> buscarPorTitulo());
-        campoTitulo.addActionListener(e -> buscarPorTitulo());
-        atualizar.addActionListener(e -> carregarLivros());
-        mostrarTodos.addActionListener(e -> carregarLivros());
-        limpar.addActionListener(e -> {
-            campoTitulo.setText("");
+        buscar.addActionListener(
+            e -> buscarLivro()
+        );
+        campoId.addActionListener(
+            e -> buscarLivro()
+        );
+        botaoBuscarTitulo.addActionListener(
+            e -> buscarPorTitulo()
+        );
+        campoTitulo.addActionListener(
+            e -> buscarPorTitulo()
+        );
+        atualizar.addActionListener(
+            e -> carregarLivros()
+        );
+        mostrarTodos.addActionListener(
+            e -> carregarLivros()
+        );
+        limpar.addActionListener(
+            e -> {campoTitulo.setText("");
             campoId.setText("");
             carregarLivros();
         });
+        botaoCapa.addActionListener(
+            e -> selecionarCapa()
+        );
+
 
         carregarLivros();
     }
@@ -124,6 +190,7 @@ public class TelaLivros extends JFrame {
 
         modelo.addRow(new Object[]{
             livro.getId(),
+            carregarMiniatura(livro.getCapa()),
             livro.getTitulo(),
             livro.getAutor(),
             livro.getAno()
@@ -180,13 +247,6 @@ public class TelaLivros extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-
-        SwingUtilities.invokeLater(() -> {
-            new TelaLivros().setVisible(true);
-        });
-    }
-
     private void buscarPorTitulo() {
 
         String titulo =
@@ -225,5 +285,134 @@ public class TelaLivros extends JFrame {
                 "Nenhum livro encontrado."
             );
         }
+    }
+
+    private void selecionarCapa() {
+
+        int linha = tabela.getSelectedRow();
+
+        if (linha == -1) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Selecione um livro na tabela."
+            );
+            return;
+        }
+
+        int linhaModelo =
+            tabela.convertRowIndexToModel(linha);
+
+        int id = (int) modelo.getValueAt(
+            linhaModelo, 0
+        );
+
+        JFileChooser seletor = new JFileChooser();
+
+        seletor.setDialogTitle(
+            "Selecione a capa do livro"
+        );
+
+        seletor.setFileFilter(
+            new javax.swing.filechooser.FileNameExtensionFilter(
+                "Imagens JPG e PNG", "jpg", "jpeg", "png"
+            )
+        );
+
+        if (seletor.showOpenDialog(this)
+                != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        java.nio.file.Path destino = null;
+
+        try {
+
+            destino = java.nio.file.Path.of(
+                ImagemLivro.salvar(
+                    seletor.getSelectedFile().toPath(),
+                    id
+                )
+            );
+
+            boolean atualizado =
+                dao.atualizarCapa(
+                    id, destino.toString().replace('\\', '/')
+                );
+
+            if (!atualizado) {
+
+                java.nio.file.Files.deleteIfExists(destino);
+
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Não foi possível atualizar o livro."
+                );
+
+                return;
+            }
+
+            carregarLivros();
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Capa salva com sucesso!"
+            );
+
+        } catch (Exception ex) {
+
+            if (destino != null) {
+                try {
+                    java.nio.file.Files.deleteIfExists(destino);
+                } catch (java.io.IOException ignorado) {
+                }
+            }
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Erro ao salvar capa: " +
+                ex.getMessage()
+            );
+        }
+    }
+
+    private ImageIcon carregarMiniatura(
+            String caminho) {
+
+        if (caminho == null || caminho.isBlank()) {
+            return null;
+        }
+
+        java.io.File arquivo =
+            new java.io.File(caminho);
+
+        if (!arquivo.isFile()) {
+            return null;
+        }
+
+        try {
+
+            java.awt.image.BufferedImage imagem =
+                javax.imageio.ImageIO.read(arquivo);
+
+            if (imagem == null) {
+                return null;
+            }
+
+            Image reduzida = imagem.getScaledInstance(
+                55, 75, Image.SCALE_SMOOTH
+            );
+
+            return new ImageIcon(reduzida);
+
+        } catch (java.io.IOException e) {
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+
+        SwingUtilities.invokeLater(() -> {
+            new TelaLivros().setVisible(true);
+        });
     }
 }
