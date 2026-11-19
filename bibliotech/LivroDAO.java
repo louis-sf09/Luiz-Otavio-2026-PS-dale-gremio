@@ -87,7 +87,7 @@ public class LivroDAO {
         List<Livro> livros = new ArrayList<>();
 
         String sql =
-            "SELECT id, titulo, autor, ano " +
+            "SELECT id, capa, titulo, autor, ano " +
             "FROM livros ORDER BY titulo";
 
         try (Connection conexao = Conexao.conectar();
@@ -115,6 +115,8 @@ public class LivroDAO {
                     ano
                 );
 
+                livro.setCapa(resultado.getString("capa"));
+
                 livros.add(livro);
             }
 
@@ -132,7 +134,7 @@ public class LivroDAO {
     public Livro buscarLivroPorId(int id) {
 
         String sql =
-            "SELECT id, titulo, autor, ano " +
+            "SELECT id, capa, titulo, autor, ano " +
             "FROM livros WHERE id = ?";
 
         try (Connection conexao = Conexao.conectar();
@@ -158,12 +160,16 @@ public class LivroDAO {
                     int ano =
                         resultado.getInt("ano");
 
-                    return new Livro(
+                    Livro livro = new Livro(
                         codigo,
                         titulo,
                         autor,
                         ano
                     );
+
+                    livro.setCapa(resultado.getString("capa"));
+
+                    return livro;
                 }
             }
 
@@ -184,7 +190,7 @@ public class LivroDAO {
         List<Livro> livros = new ArrayList<>();
 
         String sql =
-            "SELECT id, titulo, autor, ano " +
+            "SELECT id, capa, titulo, autor, ano " +
             "FROM livros " +
             "WHERE titulo LIKE ? " +
             "ORDER BY titulo";

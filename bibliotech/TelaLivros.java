@@ -1,5 +1,8 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
 import java.awt.*;
 import java.util.List;
 
@@ -22,7 +25,7 @@ public class TelaLivros extends JFrame {
     public TelaLivros() {
 
         setTitle("BiblioTech - Consulta de Livros");
-        setSize(650, 450);
+        setSize(750, 550);
         setLocationRelativeTo(null);
 
         setDefaultCloseOperation(
@@ -51,6 +54,34 @@ public class TelaLivros extends JFrame {
         );
 
         tabela.setRowHeight(85);
+            
+        tabela.setFont(
+            new Font("SansSerif", Font.PLAIN, 14)
+        );
+
+        tabela.setBackground(
+            new Color(248, 250, 252)
+        );
+
+        tabela.setForeground(
+            new Color(30, 41, 59)
+        );
+
+        tabela.setSelectionBackground(
+            new Color(191, 219, 254)
+        );
+
+        tabela.getTableHeader().setFont(
+            new Font("SansSerif", Font.BOLD, 14)
+        );
+
+        tabela.getTableHeader().setBackground(
+            new Color(78, 119, 197)
+        );
+
+        tabela.getTableHeader().setForeground(
+            new Color(255, 255, 255)
+        );
 
         tabela.getColumnModel()
             .getColumn(1)
@@ -97,23 +128,23 @@ public class TelaLivros extends JFrame {
             );
 
         GridLayout controlesLayout =
-            new GridLayout(0, 3, 10, 4);
+            new GridLayout(0, 3, 20, 10);
 
         JPanel controles = new JPanel(
             new FlowLayout(FlowLayout.LEFT)
         );
 
+        controles.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
         JButton buscar =
             new JButton("Buscar por ID");
+        buscar.setPreferredSize(new Dimension(200, 30));
 
         JButton botaoBuscarTitulo =
             new JButton("Buscar por título");
 
         JButton atualizar =
             new JButton("Atualizar listagem");
-
-        JButton mostrarTodos =
-            new JButton("Mostrar todos");
 
         JButton limpar =
             new JButton("Limpar pesquisa");
@@ -132,7 +163,6 @@ public class TelaLivros extends JFrame {
         controles.add(botaoBuscarTitulo);
 
         controles.add(atualizar);
-        controles.add(mostrarTodos);
         controles.add(limpar);
         controles.add(botaoCapa);
 
@@ -152,9 +182,6 @@ public class TelaLivros extends JFrame {
             e -> buscarPorTitulo()
         );
         atualizar.addActionListener(
-            e -> carregarLivros()
-        );
-        mostrarTodos.addActionListener(
             e -> carregarLivros()
         );
         limpar.addActionListener(

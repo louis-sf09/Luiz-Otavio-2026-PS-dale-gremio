@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.List;
+
 import javax.swing.*;
 
 public class TelaBiblioteca extends JFrame {
@@ -13,7 +15,7 @@ public class TelaBiblioteca extends JFrame {
         this.biblioteca = biblioteca;
 
         setTitle("BiblioTech");
-        setSize(760, 480);
+        setSize(650, 450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
@@ -38,7 +40,10 @@ public class TelaBiblioteca extends JFrame {
         areaAcervo.setWrapStyleWord(true);
         add(new JScrollPane(areaAcervo), BorderLayout.CENTER);
 
-        JPanel botoes = new JPanel(new FlowLayout());
+        JPanel botoes = new JPanel(new GridLayout(0, 4, 5, 5));
+        botoes.setBorder(
+            BorderFactory.createEmptyBorder(10, 10, 10, 10)
+        );
 
         JButton botaoEmprestar = new JButton("Emprestar");
         JButton botaoDevolver = new JButton("Devolver");
@@ -119,13 +124,17 @@ public class TelaBiblioteca extends JFrame {
 
     public static void main(String[] args) {
         Biblioteca biblioteca = new Biblioteca();
+        LivroDAO dao = new LivroDAO();
 
-        biblioteca.cadastrarLivro(
-            new Livro(1, "Dom Casmurro", "Machado de Assis", 1899)
-        );
-        biblioteca.cadastrarLivro(
-            new Livro(2, "Capitaes da Areia", "Jorge Amado", 1937)
-        );
+        List<Livro> livros =
+            dao.listarLivros();
+
+        for (Livro livro : livros) {
+            biblioteca.cadastrarLivro(
+                new Livro(livro.getId(), livro.getTitulo(), livro.getAutor(), livro.getAno())
+            );
+        }
+
         biblioteca.cadastrarLeitor(
             new Leitor("Pedro Alves", "2026010", 1)
         );
